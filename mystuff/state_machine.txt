@@ -1,0 +1,26 @@
+module state_machine(input clk, input wires_that_affect, output wire  led);
+  // initialize everything
+  wire [2:0] state;
+
+  initial begin
+    // initialize all outputs
+  end
+  always @(posedge clk) begin
+    // do reset case
+    else begin
+      case (state)
+        0: begin
+          // set outputs
+        end
+        1: begin
+          // stuff
+        end
+        2: begin
+          // stuff
+        end
+      endcase
+    end
+  end
+endmodule
+
+module state_machine_transition(input clk, 

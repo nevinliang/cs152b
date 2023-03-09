@@ -1,0 +1,28 @@
+module debouncer (input clk, input switch, output state);
+  reg sync0, sync1;
+  initial begin
+    sync0 <= 0;
+    sync1 <= 1;
+    state <= 0;
+  end
+  always @(posedge clk) begin
+    sync0 <= switch;
+  end
+  always @(posedge clk) begin
+    sync1 <= sync0;
+  end
+  wire idle = (state == sync1);
+  reg [15:0] counter;
+  wire finished = &counter;
+  always @(posedge clk) begin
+    if (idle) begin
+      counter <= 0;
+    end
+    else begin
+      counter <= counter + 1;
+      if (finished) begin
+        state <= ~state;
+      end
+    end
+  end
+endmodule

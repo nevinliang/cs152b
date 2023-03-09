@@ -1,0 +1,34 @@
+// 100 MHz clock default for clk
+module clock_1hz (input clk, input rst, output reg clk1hz);
+  // initialize counter/clock div
+  reg [31:0] counter;
+
+  // initial block has to initialize all things
+  initial begin
+    counter <= 0;
+    clk1hz <= 0;
+  end
+
+  // always block that occurs on the posedge of the original clk
+  always @(posedge clk) begin
+    // if reset is on
+    if (rst == 1'b1) begin
+      counter <= 0;
+      clk1hz <= 0;
+    end
+    // otherwise, increment or loop
+    else begin
+      // increment
+      counter <= counter + 32'b1;
+      // if hit max, reset
+      if (counter == 100000000) begin
+        clk1hz <= 1;
+        counter <= 0;
+      end
+      // clk1hz should only be high for 1 cycle
+      else begin
+        clk1hz <= 0;
+      end
+    end
+  end
+endmodule
